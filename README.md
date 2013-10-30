@@ -9,7 +9,7 @@ Update: The script now shows an MtGox price ticker alternating on the line with 
 
 Run as root to avoid permissions issues (see note below): sudo python MinerLCDStats.py [options]
 
-Usage: cgminerLCDStats.py [options] arg                                                                                                                                                            
+Usage: LCDStats.py [options] arg                                                                                                                                                            
                                                                                                                                                                                                    
 Options:  
   `-h, --help            show this help message and exit`  
