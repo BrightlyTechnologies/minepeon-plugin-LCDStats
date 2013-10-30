@@ -417,7 +417,7 @@ if __name__ == "__main__":
     mtgoxDirectionCode = mtgoxUpCode 
     
     # create instance of the CgminerRPCClient class
-    rpcClient = CgminerRPCClient(host, port)
+    rpcClient = RPCClient(host, port)
    
     while(True):
         
