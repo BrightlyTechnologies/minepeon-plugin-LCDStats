@@ -7,7 +7,7 @@ import socket
 import time
 import json
 
-class CgminerRPCClient:
+class RPCClient:
     #
     ## Class init
     #
