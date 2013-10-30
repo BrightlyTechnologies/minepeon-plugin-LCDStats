@@ -23,7 +23,7 @@
 
 import math
 from pylcdsysinfo import BackgroundColours, TextColours, TextAlignment, TextLines, LCDSysInfo
-from CgminerRPCClient import CgminerRPCClient
+from RPCClient import RPCClient
 from optparse import OptionParser
 import time
 import json     # used when debugging for json print formatting
@@ -366,7 +366,7 @@ def showDefaultScreen(firstTime, summary, mtgoxLastPrice, mtgoxDirectionCode, to
 if __name__ == "__main__":
     
     # print welcome message
-    print "Welcome to cgminerLCDStats"
+    print "Welcome to MinerLCDStats"
     print "Copyright 2013 Cardinal Communications"
      
     host = '127.0.0.1' # cgminer host IP - value overridden by command line parm
@@ -383,8 +383,8 @@ if __name__ == "__main__":
     # setup command line options and help
     parser.add_option("-s", "--simple", action="store_true", dest="simpleDisplay", default=False, help="Show simple display layout instead of default")
     parser.add_option("-d", "--refresh-delay", type="int", dest="refreshDelay", default=screenRefreshDelay, help="REFRESHDELAY = Time delay between screen/API refresh") 
-    parser.add_option("-i", "--host", type="str", dest="host", default=host, help="I.P. Address of cgminer API host")
-    parser.add_option("-p", "--port", type="int", dest="port", default=port, help="Port of cgminer API") 
+    parser.add_option("-i", "--host", type="str", dest="host", default=host, help="I.P. Address of gminer API host")
+    parser.add_option("-p", "--port", type="int", dest="port", default=port, help="Port of gminer API") 
     parser.add_option("-c", "--clock", type="str", dest="timeDisplayFormat", default='12', help="Clock Display 12 hr / 24 hr")
     # MtGox related command line options
     parser.add_option("--mtgoxDisplayOff", action="store_true", dest="mtgoxDisplayOff", default=False, help="If specified, MtGox ticker will not be displayed") 
