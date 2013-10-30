@@ -1,14 +1,13 @@
-cgminerLCDStats
+MinerLCDStats
 ===============
 
-Simple script to get data from cgminer API and display it on the "LCD System Info" display. See links below for where you can purchase the display used for this project.  
+Simple script to get data from miner API and display it on the "LCD System Info" display. See links below for where you can purchase the display used for this project.  
 
 Update: The script now shows an MtGox price ticker alternating on the line with the WU: cgminer stats. There is a delay of a few seconds when updating the ticker. Under no circumstances should it be used for time sensitive activities such as trading.  It is provided only as a convenience for the user.  
 
-If you feel this code is useful, please consider a donation to:  
-  BTC address: 1CQfpMHQ5zVuZ5i9uxSHSSx4J8ZhehSjn3
 
-Run as root to avoid permissions issues (see note below): sudo python cgminerLCDStats.py [options]
+
+Run as root to avoid permissions issues (see note below): sudo python MinerLCDStats.py [options]
 
 Usage: cgminerLCDStats.py [options] arg                                                                                                                                                            
                                                                                                                                                                                                    
