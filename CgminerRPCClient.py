@@ -30,11 +30,12 @@ class CgminerRPCClient:
             data = ""
             while True:
                 buffer = s.recv(65535)
-                if '\x00' in buffer:
+                if buffer:
                     data += buffer # keep the buffer and bail from the loop - we got all the data
-                    break # zero found, so we must have all the data TODO break in loop is ugly           
+                    #break # zero found, so we must have all the data TODO break in loop is ugly           
                 else:
-                    data += buffer # No zero found yet, append current buffer to data and loop for more 
+                    s.close() #data += buffer # No zero found yet, append current buffer to data and loop for more 
+                    break
             
             s.close() # close the socket
             
