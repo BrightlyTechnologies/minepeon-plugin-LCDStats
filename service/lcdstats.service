@@ -1,0 +1,11 @@
+[Unit]
+Description=LCDStats
+After=network.target miner.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python2.7 /opt/minepeon/plugin/LCDStats/LCDStats.py 
+
+[Install]
+WantedBy=multi-user.target
+
