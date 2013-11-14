@@ -10,16 +10,12 @@ echo "$c2                        | |                     "
 echo "$c2                        |_| LCDStats Plugin     "
 echo "$c2                            by Henry W. (tk1337)"
 echo
-echo "This will install the MobileMinerApp plugin for MinePeon."
+echo "This will install the LCDStats plugin for MinePeon."
 echo "It will require sudo access to install the service and ask"
 echo "you for your password."
 echo
-echo "** You will need to register your email with mobileminerapp.com"
-echo "to receive an application key for this service to work. **"
-echo
-echo "Updates to MobileMinerApp's servers happen every one (1) minute, if"
-echo "your system does not instantly show up within your application after"
-echo "installing this plugin, please allow it some time."
+echo "** This works with a specific LCD, AIDA64 LCD for more information"
+echo "about where to buy the LCD & more, check the README.md file **"
 echo
 
 read -p "Continue installation of LCDStats plugin? [y/n]" -n 1 -r
