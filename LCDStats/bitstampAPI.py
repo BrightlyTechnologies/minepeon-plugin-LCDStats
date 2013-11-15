@@ -1,5 +1,4 @@
 #
-## class for doing basic MtGox calls
 ## The class supports GET requests for API calls that don't require authentication
 ##  as well as PUT requests for those that do.
 #
@@ -11,12 +10,12 @@ import time,hmac,base64,hashlib,urllib,urllib2,json, gzip, io
 class bitstampAPI:
 	## Class init
 	## If desired, override any of the parameter defaults when calling
-	## Hopefully parms are self explanatory (key and secret are required MtGox API keys for "non-public" calls)
+	## Hopefully parms are self explanatory
 	def __init__(self, key='', secret='', agent='API_Caller', timeout=3):
 		self.key, self.secret, self.agent, self.timeout = key, secret, agent, timeout
 		self.time 			= {'init': time.time(), 'req': time.time()}
 		self.base 			= 'https://www.bitstamp.net/api/ticker/'
-		self.lastMtGox	= ""
+		self.lastBitstamp	= ""
 		
 		# throttle variables		
 		self.waitToCall	= 1 # time to wait between each API call, in seconds APROX!
@@ -80,22 +79,22 @@ class bitstampAPI:
 			if isinstance(enc, str) and enc.lower() == 'gzip':
 				buff = io.BytesIO(response.read())
 				response = gzip.GzipFile(fileobj=buff)
-				self.lastMtGox = json.load(response)
+				self.lastBitstamp = json.load(response)
 				
-		return self.lastMtGox
+		return self.lastBitstamp
 
 
 if __name__=='__main__':
-	stamp = bitstampAPI()
+	bitstamp = bitstampAPI()
 	bid_price = {u'data': {u'amount': 00000001}, u'result': u'failure'} ## dummy up failure call results
 	while True:
 		try:			
-			new_bid_price = stamp.req('BTCUSD/money/ticker_fast', {}, True) 
-			print json.dumps(new_bid_price, sort_keys=True, indent=4, separators=(',', ': '))
+			new_bid_price = bitstamp.req('BTCUSD/money/ticker_fast', {}, True) 
+			#print json.dumps(new_bid_price, sort_keys=True, indent=4, separators=(',', ': '))
 			if new_bid_price:
 				bid_price = new_bid_price
-			print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
-			print bid_price['last']
+			#print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
+			print bid_price['data']['last']
 			#print "Current USD Bid Price: %f" % (bid_price['data']['amount'] / 1e5)
 		except Exception as e:
 			print "Error - %s" % e
