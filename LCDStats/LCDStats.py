@@ -32,7 +32,8 @@ from RPCClient import RPCClient
 from optparse import OptionParser
 import time
 import json     # used when debugging for json print formatting
-from tickerAPI import tickerAPI
+from bitstampAPI import bitstampAPI
+from mtgoxAPI import mtgoxAPI
 from TimedToggle import TimedToggle
 
 
@@ -251,6 +252,21 @@ def getMtGoxPrice(tickerTimeout):
     
 # END getMtGoxPrice():
 
+def getBitstampPrice(tickerTimeout):
+    stamp = bitstampAPI('', '', 'API-Caller', tickerTimeout) # it's ok to pass empty credentials, since we're calling public API
+    try:          
+        bid_price = stamp.req('BTCUSD/money/ticker_fast', {}, True) 
+        if bid_price:
+            return bid_price['last']
+        else:
+            return "$000.00" # should never hit this case
+    # swallow all exceptions here
+    except Exception as e:
+        print "Bitstamp API Error - %s" % e
+        return "Error  " # this string is displayed instead of the dollar amount if API errored
+    
+# END getMtGoxPrice():
+
 
 # Display default status info screen (mimics cgminer text display where possible)
 #  NOTE: screen design courtesy of "Kano". Thanks man!
@@ -320,7 +336,8 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     line5String = reject + "  " + hardware
     
     if tickerToggleState: # if we have MtGox data, get ready to display it
-        line6String = "MtGox: " + tickerLastPrice 
+        #line6String = "MtGox: " + tickerLastPrice
+        line6String = "Bitstamp: " + tickerLastPrice 
     else:
         line6String = workUtility
         
@@ -360,7 +377,8 @@ if __name__ == "__main__":
     
     # print welcome message
     print "Welcome to MinerLCDStats"
-    print "Copyright 2013 Cardinal Communications"
+    print "Changes for MinePeon by tk1337 11-15-2013"
+    print "Original code-base (c) 2013 Cardinal Communications"
      
     host = '127.0.0.1'  # cgminer host IP - value overridden by command line parm
     port = 4028         # default port - value overridden by command line parm

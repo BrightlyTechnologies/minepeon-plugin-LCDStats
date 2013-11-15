@@ -8,14 +8,14 @@
 
 import time,hmac,base64,hashlib,urllib,urllib2,json, gzip, io
 
-class mtgoxAPI:
+class bitstampAPI:
 	## Class init
 	## If desired, override any of the parameter defaults when calling
 	## Hopefully parms are self explanatory (key and secret are required MtGox API keys for "non-public" calls)
 	def __init__(self, key='', secret='', agent='API_Caller', timeout=3):
 		self.key, self.secret, self.agent, self.timeout = key, secret, agent, timeout
 		self.time 			= {'init': time.time(), 'req': time.time()}
-		self.base 			= 'https://data.mtgox.com/api/2/'
+		self.base 			= 'https://www.bitstamp.net/api/ticker/'
 		self.lastMtGox	= ""
 		
 		# throttle variables		
@@ -86,16 +86,16 @@ class mtgoxAPI:
 
 
 if __name__=='__main__':
-	gox = mtgoxAPI()
+	stamp = bitstampAPI()
 	bid_price = {u'data': {u'amount': 00000001}, u'result': u'failure'} ## dummy up failure call results
 	while True:
 		try:			
-			new_bid_price = gox.req('BTCUSD/money/ticker_fast', {}, True) 
+			new_bid_price = stamp.req('BTCUSD/money/ticker_fast', {}, True) 
 			#print json.dumps(new_bid_price, sort_keys=True, indent=4, separators=(',', ': '))
 			if new_bid_price:
 				bid_price = new_bid_price
 			#print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
-			print bid_price['data']['last']['display']
+			print bid_price['last']
 			#print "Current USD Bid Price: %f" % (bid_price['data']['amount'] / 1e5)
 		except Exception as e:
 			print "Error - %s" % e
