@@ -32,8 +32,8 @@ from RPCClient import RPCClient
 from optparse import OptionParser
 import time
 import json     # used when debugging for json print formatting
-from bitstampAPI import bitstampAPI
 from mtgoxAPI import mtgoxAPI
+from bitstampAPI import bitstampAPI
 from TimedToggle import TimedToggle
 
 
@@ -111,18 +111,6 @@ def getMinerSummary(rpcClient):
         raise Exception("No summary data found") # let the exception handler display error screen
  
 # END getMinerSummary()
-
-def getMinerVersion(rpcClient):
-    result = rpcClient.command('version')
-    version= result['STATUS'][0]['Description']
-    if version.startswith('cg') == True:
-        minerType = 1
-    elif version.startswith('bfg') == True:
-        minerType = 2
-    else:
-        raise Exception("Not compatible with miner software.")
-    
-#END getMinerVersion()
 
 # call miner "notify" API
 # returns: json "notify" call results
@@ -237,7 +225,7 @@ def convertSize(size):
 # parms: desired socket timeout value for http request
 # returns: Current MtGox "Last" price in USD, or "Error" if error/timeout occurs
 def getMtGoxPrice(tickerTimeout):
-    gox = tickerAPI('', '', 'API-Caller', tickerTimeout) # it's ok to pass empty credentials, since we're calling public API
+    gox = mtgoxAPI('', '', 'API-Caller', tickerTimeout) # it's ok to pass empty credentials, since we're calling public API
     try:          
         bid_price = gox.req('BTCUSD/money/ticker_fast', {}, True) 
         if bid_price:
@@ -253,14 +241,15 @@ def getMtGoxPrice(tickerTimeout):
 # END getMtGoxPrice():
 
 def getBitstampPrice(tickerTimeout):
-    stamp = bitstampAPI('', '', 'API-Caller', tickerTimeout) # it's ok to pass empty credentials, since we're calling public API
+    bitstamp = bitstampAPI('', '', 'API-Caller', tickerTimeout) # it's ok to pass empty credentials, since we're calling public API
     try:          
-        bid_price = stamp.req('BTCUSD/money/ticker_fast', {}, True) 
+        bid_price = bitstamp.req('BTCUSD/money/ticker_fast', {}, True) 
         if bid_price:
             return bid_price['last']
+            #print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
         else:
             return "$000.00" # should never hit this case
-    # swallow all exceptions here
+    # swallow all exceptions here, since we don't want to fail the app just because we can't get MtGox data
     except Exception as e:
         print "Bitstamp API Error - %s" % e
         return "Error  " # this string is displayed instead of the dollar amount if API errored
@@ -336,7 +325,6 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     line5String = reject + "  " + hardware
     
     if tickerToggleState: # if we have MtGox data, get ready to display it
-        #line6String = "MtGox: " + tickerLastPrice
         line6String = "Bitstamp: " + tickerLastPrice 
     else:
         line6String = workUtility
@@ -377,8 +365,7 @@ if __name__ == "__main__":
     
     # print welcome message
     print "Welcome to MinerLCDStats"
-    print "Changes for MinePeon by tk1337 11-15-2013"
-    print "Original code-base (c) 2013 Cardinal Communications"
+    print "Copyright 2013 Cardinal Communications"
      
     host = '127.0.0.1'  # cgminer host IP - value overridden by command line parm
     port = 4028         # default port - value overridden by command line parm
@@ -422,9 +409,9 @@ if __name__ == "__main__":
     timeDisplayFormat   = options.timeDisplayFormat
     tickerTimeout       = options.tickerTimeout
     tickerDisplayOff    = options.tickerDisplayOff
-    tickerToggleRate    = options.tickerTottleRate
+    tickerToggleRate    = options.tickerToggleRate
     timedToggle         = TimedToggle(tickerToggleRate) # create timed toggle instance that swaps state every X seconds
-    tickerForce         = opotions.tickerForce
+    tickerForce         = options.tickerForce
     
     #mtgoxTimeout        = options.mtgoxTimeout
     #mtgoxDisplayOff     = options.mtgoxDisplayOff
@@ -444,7 +431,6 @@ if __name__ == "__main__":
     
     # create instance of the CgminerRPCClient class
     rpcClient = RPCClient(host, port)
-    minerType = getMinerVersion();
     
     while(True):
         
