@@ -294,7 +294,7 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
         hwp = str(int(summary['SUMMARY'][0]['Hardware Errors']))
     hardware    = "HW:" + hwp
     bestShare   = "S:" + convertSize(int(summary['SUMMARY'][0]['Best Share']))
-    workUtility = "WU:" + str(summary['SUMMARY'][0]['Work Utility']) + "/m"
+    #workUtility = "WU:" + str(summary['SUMMARY'][0]['Work Utility']) + "/m"
    
     # get current time, and format it per user selection
     theTime = ""   
@@ -314,20 +314,19 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     # build the display strings
     line1String = shortPoolURL + "\t" + theTime
     line2String = "Uptime:  " + upTime
-    line3String = "Avg:" + avgMhs + "h/s" + "  B:" + foundBlocks
+    line3String = avgMhs + "h/s" + "  B:" + foundBlocks
     if int(foundBlocks) > 0:
         line3Colour = TextColours.RED
     else:
         line3Colour = TextColours.GREEN
 
-    #line3String = "Avg:" + avgMhs + "\tB:" + foundBlocks
     line4String = difficultyAccepted + "  " + bestShare
     line5String = reject + "  " + hardware
     
-    if tickerToggleState: # if we have MtGox data, get ready to display it
+    if tickerToggleState: # if we have ticker data, get ready to display it
         line6String = "Bitstamp: " + tickerLastPrice 
     else:
-        line6String = workUtility
+        line6String = "Ticker API Error"
         
     # set up to write to the LCD screen
     # Init the LCD screen
@@ -385,18 +384,14 @@ if __name__ == "__main__":
     parser.add_option("-p","--port",type="int",dest="port",default=port,help="Port of Miner API") 
     parser.add_option("-c","--clock",type="str",dest="timeDisplayFormat",default='12', help="Clock Display 12 hr / 24 hr")
     parser.add_option("-m","--miner",type="int",dest="minerType",default='1',help="Define which miner software you want to use: 1 = CGminer, 2 = BFGMiner")
-    # Added options for which ticket stream to use
+    
+    # Added options for which ticker stream to use
     parser.add_option("--tickerBitStamp",action="store_true",dest="tickerBitStamp",default=False,help="If specified, BitStamp will be used instead of MtGox")
     parser.add_option("--tickerDisplayOff",action="store_true",dest="tickerDisplayOff",default=False,help="If specified, ticker will not be displayed")
     parser.add_option("--tickerToggleRate",type="float",dest="tickerToggleRate",default=15,help="Rate (in sec.) to toggle display between WU: and specified ticker API")
     parser.add_option("--tickerTimeout",type="float",dest="tickerTimeout",default=4,help="Ticker API socket timeout in seconds")
     parser.add_option("--tickerForce",action="store_true",dest="tickerForce",default=False,help="If specified, ticker will always display")
-    # MtGox related command line options
-    #parser.add_option("--mtgoxDisplayOff", action="store_true", dest="mtgoxDisplayOff", default=False, help="If specified, MtGox mtgox will not be displayed") 
-    #parser.add_option("--mtgoxToggleRate", type="float", dest="mtgoxToggleRate", default=15, help="Rate to toggle display between WU: and MtGox in seconds")
-    #parser.add_option("--mtgoxTimeout", type="float", dest="mtgoxTimeout", default=4, help="MtGox API socket timeout in seconds")
-    #parser.add_option("--mtgoxForce", action="store_true", dest="mtgoxForce", default=False, help="If specified, MtGox mtgox will always display")
-
+    
     # parse the command line arguments and populate the variables
     (options, args)     = parser.parse_args()    
     simpleDisplay       = options.simpleDisplay
@@ -412,12 +407,6 @@ if __name__ == "__main__":
     tickerToggleRate    = options.tickerToggleRate
     timedToggle         = TimedToggle(tickerToggleRate) # create timed toggle instance that swaps state every X seconds
     tickerForce         = options.tickerForce
-    
-    #mtgoxTimeout        = options.mtgoxTimeout
-    #mtgoxDisplayOff     = options.mtgoxDisplayOff
-    #mtgoxToggleRate     = options.mtgoxToggleRate
-    #timedToggle         = TimedToggle(mtgoxToggleRate) # create timed toggle instance that swaps state every X seconds
-    #mtgoxForce          = options.mtgoxForce
     
     # init other misc. variables        
     firstTime           = True
