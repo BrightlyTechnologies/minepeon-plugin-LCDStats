@@ -323,10 +323,10 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     line4String = difficultyAccepted + "  " + bestShare
     line5String = reject + "  " + hardware
     
-    if tickerToggleState: # if we have ticker data, get ready to display it
-        line6String = "Bitstamp: " + tickerLastPrice 
-    else:
-        line6String = "Ticker API Error"
+    #if tickerToggleState: # if we have ticker data, get ready to display it
+    line6String = "Bitstamp: " + tickerLastPrice 
+    #else:
+    #    line6String = "Ticker API Error"
         
     # set up to write to the LCD screen
     # Init the LCD screen
@@ -363,8 +363,9 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
 if __name__ == "__main__":
     
     # print welcome message
-    print "Welcome to MinerLCDStats"
-    print "Copyright 2013 Cardinal Communications"
+    print "Welcome to MinePeon LCDStats"
+    print "Modified for MinePeon 0.2.4+ by Henry W. (tk1337)"
+    print "Original code-base (c) 2013 Cardinal Communications"
      
     host = '127.0.0.1'  # cgminer host IP - value overridden by command line parm
     port = 4028         # default port - value overridden by command line parm
@@ -442,7 +443,7 @@ if __name__ == "__main__":
                     
                 if (tickerToggleState == True):
                     tickerPreviousPrice = tickerLastPrice
-                    tickerLastPrice = str(getMtGoxPrice(tickerTimeout))   # Call MtGox API to get "Last Price" in USD
+                    tickerLastPrice = str(getBitstampPrice(tickerTimeout))   # Call to ticker API to get "Last Price" in USD
                     
                     if tickerPreviousPrice == tickerLastPrice: # check direction of price change based on previous price
                         pass                                    # no price change, so keep the previous direction code state
