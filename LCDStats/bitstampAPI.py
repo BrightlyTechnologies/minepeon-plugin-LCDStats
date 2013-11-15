@@ -52,25 +52,12 @@ class bitstampAPI:
 		
 		while self.simple_throttle():  # check if have been making too many requests
 			try:
-				headers = {
-					'User-Agent': "API_Caller",
-					'Accept-Encoding': 'GZIP',
-		        }
 				if get:
-					get_data = urllib.urlencode(inp)
-					url = self.base + path + "?" + get_data
-					request = urllib2.Request(url, headers=headers)
+					request = urllib2.Request(self.base)
 					response = urllib2.urlopen(request, timeout = self.timeout) # timeout after specified seconds
 				else:
-						inp[u'tonce'] = str(int(time.time()*1e6))
-						post_data = urllib.urlencode(inp)
-						headers.update({
-									'Rest-Key': self.key,
-									'Rest-Sign': self.sign(path, post_data),
-									'Content-Type': 'application/x-www-form-urlencoded',
-		            })
-						request = urllib2.Request(self.base + path, post_data, headers)
-						response = urllib2.urlopen(request, post_data)
+						request = urllib2.Request(self.base)
+						response = urllib2.urlopen(request)
 						
 			except urllib2.HTTPError as e:
 				response = e.fp
