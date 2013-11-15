@@ -41,11 +41,7 @@ class bitstampAPI:
 
 	def makereq(self, path, data):
 		# bare-bones hmac rest sign
-		return urllib2.Request(self.base + path, data, {
-			'User-Agent': self.agent,
-			'Rest-Key': self.key,
-			'Rest-Sign': base64.b64encode(str(hmac.new(base64.b64decode(self.secret), path + chr(0) + data, hashlib.sha512).digest())),
-		})
+		return urllib2.Request(self.base)
 
 
 	def req(self, path, inp={}, get=False):
@@ -62,26 +58,19 @@ class bitstampAPI:
 			except urllib2.HTTPError as e:
 				response = e.fp
 				
-			enc = response.info().get('Content-Encoding')
-			if isinstance(enc, str) and enc.lower() == 'gzip':
-				buff = io.BytesIO(response.read())
-				response = gzip.GzipFile(fileobj=buff)
-				self.lastBitstamp = json.load(response)
-				
+		self.lastBitstamp = json.load(response)
 		return self.lastBitstamp
 
 
 if __name__=='__main__':
 	bitstamp = bitstampAPI()
-	bid_price = {u'data': {u'amount': 00000001}, u'result': u'failure'} ## dummy up failure call results
+	bid_price = {u'last': 00000001, u'result': u'failure'} ## dummy up failure call results
 	while True:
 		try:			
 			new_bid_price = bitstamp.req('BTCUSD/money/ticker_fast', {}, True) 
-			#print json.dumps(new_bid_price, sort_keys=True, indent=4, separators=(',', ': '))
 			if new_bid_price:
 				bid_price = new_bid_price
-			#print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
+	
 			print bid_price['last']
-			#print "Current USD Bid Price: %f" % (bid_price['data']['amount'] / 1e5)
 		except Exception as e:
 			print "Error - %s" % e

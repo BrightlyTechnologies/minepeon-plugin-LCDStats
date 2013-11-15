@@ -246,7 +246,6 @@ def getBitstampPrice(tickerTimeout):
         bid_price = bitstamp.req('BTCUSD/money/ticker_fast', {}, True) 
         if bid_price:
             return bid_price['last']
-            #print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
         else:
             return "$000.00" # should never hit this case
     # swallow all exceptions here, since we don't want to fail the app just because we can't get MtGox data
