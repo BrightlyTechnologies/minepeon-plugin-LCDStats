@@ -94,7 +94,7 @@ if __name__=='__main__':
 			if new_bid_price:
 				bid_price = new_bid_price
 			#print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
-			print bid_price['data']['last']
+			print bid_price['last']
 			#print "Current USD Bid Price: %f" % (bid_price['data']['amount'] / 1e5)
 		except Exception as e:
 			print "Error - %s" % e
