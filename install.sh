@@ -24,14 +24,14 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
 
   echo
-  echo "[OPTIONAL] Enter default which miner to use as default:"
-  echo "[1] CGMiner"
-  echo "[2] BFGMiner"
+  echo "[OPTIONAL] Enter default which miner to use as default (BFGMiner is used by default):"
+  echo "[1] BFGMiner"
+  echo "[2] CGMiner"
   read miner
   echo
-  echo "[OPTIONAL] Enter which exchange to use as default for ticker:"
-  echo "[1] Mt.Gox"
-  echo "[2] Bitstamp"
+  echo "[OPTIONAL] Enter which exchange to use as default for ticker (Bitstamp used by default):"
+  echo "[1] Bitstamp"
+  echo "[2] Mt.Gox"
   read exchange
   echo
   
