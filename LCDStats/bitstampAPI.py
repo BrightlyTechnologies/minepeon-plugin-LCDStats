@@ -40,7 +40,6 @@ class bitstampAPI:
 
 
 	def makereq(self, path, data):
-		# bare-bones hmac rest sign
 		return urllib2.Request(self.base)
 
 
@@ -57,6 +56,7 @@ class bitstampAPI:
 						
 			except urllib2.HTTPError as e:
 				response = e.fp
+				print response
 				
 		self.lastBitstamp = json.load(response)
 		return self.lastBitstamp
@@ -64,7 +64,7 @@ class bitstampAPI:
 
 if __name__=='__main__':
 	bitstamp = bitstampAPI()
-	bid_price = {u'last': 00000001, u'result': u'failure'} ## dummy up failure call results
+	bid_price = {u'data': {u'amount': 00000001}, u'result': u'failure'} ## dummy up failure call results
 	while True:
 		try:			
 			new_bid_price = bitstamp.req('BTCUSD/money/ticker_fast', {}, True) 
