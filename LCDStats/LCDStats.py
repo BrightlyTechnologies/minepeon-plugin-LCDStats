@@ -407,6 +407,7 @@ if __name__ == "__main__":
     tickerMtGox         = options.tickerMtGox
     timeDisplayFormat   = options.timeDisplayFormat
     tickerTimeout       = options.tickerTimeout
+    tickerDisplayOff    = False
     tickerToggleRate    = options.tickerToggleRate
     timedToggle         = TimedToggle(tickerToggleRate) # create timed toggle instance that swaps state every X seconds
     tickerForce         = options.tickerForce
