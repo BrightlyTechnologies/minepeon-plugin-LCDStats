@@ -349,11 +349,11 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     if toggleSinceLast == True:
         display.display_text_anywhere(0, 197, '       ', TextColours.BLACK)
     
-    if tickerToggleState == True:
-        display.display_icon(41, tickerDirectionCode) # directionCode should contain the icon number for up or down arrow
-        display.display_text_anywhere(95, 200, line6String, TextColours.GREEN)
-    else:
-        display.display_text_on_line(6, line6String, True, (TextAlignment.LEFT), TextColours.GREEN)
+    #if tickerToggleState == True:
+    display.display_icon(41, tickerDirectionCode) # directionCode should contain the icon number for up or down arrow
+    display.display_text_anywhere(95, 200, line6String, TextColours.GREEN)
+    #else:
+    #    display.display_text_on_line(6, line6String, True, (TextAlignment.LEFT), TextColours.GREEN)
        
 # END showDefaultScreen()
 
@@ -362,7 +362,7 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
 if __name__ == "__main__":
     
     # print welcome message
-    print "Welcome to MinePeon LCDStats"
+    print "Welcome to MinePeon LCDStats Plugin"
     print "Modified for MinePeon 0.2.4+ by Henry W. (tk1337)"
     print "Original code-base (c) 2013 Cardinal Communications"
      
