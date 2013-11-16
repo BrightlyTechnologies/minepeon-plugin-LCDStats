@@ -57,7 +57,8 @@ class bitstampAPI:
 						
 			except urllib2.HTTPError as e:
 				response = e.fp
-				self.lastBitstamp = json.load(response)
+				
+			self.lastBitstamp = json.load(response)
 		print json.dumps(self.lastBitstamp, sort_keys=True, indent=4, separators=(',', ': '))
 		return self.lastBitstamp
 
