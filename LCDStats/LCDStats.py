@@ -323,7 +323,7 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     line5String = reject + "  " + hardware
     
     #if tickerToggleState: # if we have ticker data, get ready to display it
-    line6String = "Bitstamp: $" + tickerLastPrice 
+    line6String = "Bitstamp:$" + tickerLastPrice 
     #else:
     #    line6String = "Ticker API Error"
         
@@ -443,7 +443,6 @@ if __name__ == "__main__":
                 if (tickerToggleState == True):
                     tickerPreviousPrice = tickerLastPrice
                     tickerLastPrice = str(getBitstampPrice(tickerTimeout))   # Call to ticker API to get "Last Price" in USD
-                    print "Last Price = " + tickerLastPrice
                     
                     if tickerPreviousPrice == tickerLastPrice: # check direction of price change based on previous price
                         pass                                    # no price change, so keep the previous direction code state
@@ -451,9 +450,6 @@ if __name__ == "__main__":
                         tickerDirectionCode = tickerDownCode # price went down
                     else:
                         tickerDirectionCode = tickerUpCode # price went up
-                        
-                else:                           
-                    tickerLastPrice = "000.00"  # zero out last price since we didn't call API 
                                             
             # display selected screen if command line option present
             if simpleDisplay:
