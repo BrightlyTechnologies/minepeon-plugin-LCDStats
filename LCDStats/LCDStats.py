@@ -232,7 +232,7 @@ def getMtGoxPrice(tickerTimeout):
             return bid_price['data']['last']['display']
             #print json.dumps(bid_price, sort_keys=True, indent=4, separators=(',', ': '))
         else:
-            return "$000.00" # should never hit this case
+            return "$000.01" # should never hit this case
     # swallow all exceptions here, since we don't want to fail the app just because we can't get MtGox data
     except Exception as e:
         print "MTGox API Call Error - %s" % e
@@ -247,7 +247,7 @@ def getBitstampPrice(tickerTimeout):
         if bid_price:
             return bid_price['last']
         else:
-            return "$000.00" # should never hit this case
+            return "$000.02" # should never hit this case
     # swallow all exceptions here, since we don't want to fail the app just because we can't get MtGox data
     except Exception as e:
         print "Bitstamp API Error - %s" % e
