@@ -321,11 +321,15 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
 
     line4String = difficultyAccepted + "  " + bestShare
     line5String = reject + "  " + hardware
+        
+    if (tickerMtGox == True):
+        tickerName = "Mt.Gox: $"
+    elif (tickerBitstamp == True):
+        tickerName = "Bitstamp:$"
+    else:
+        tickerName = "Bitstamp:$"
     
-    #if tickerToggleState: # if we have ticker data, get ready to display it
-    line6String = "Bitstamp:$" + tickerLastPrice 
-    #else:
-    #    line6String = "Ticker API Error"
+    line6String = tickerName + tickerLastPrice 
         
     # set up to write to the LCD screen
     # Init the LCD screen
@@ -383,7 +387,7 @@ if __name__ == "__main__":
     parser.add_option("-i","--host",type="str",dest="host",default=host,help="IP Address of Miner API host")
     parser.add_option("-p","--port",type="int",dest="port",default=port,help="Port of Miner API") 
     parser.add_option("-c","--clock",type="str",dest="timeDisplayFormat",default='24', help="Clock Display 12 hr / 24 hr")
-    parser.add_option("-m","--miner",type="int",dest="minerType",default='1',help="Define which miner software you want to use: 1 = CGminer, 2 = BFGMiner")
+    parser.add_option("-m","--miner",type="int",dest="minerType",default='1',help="Define which miner software you want to use: [1] BFGMiner, [2] CGMiner")
     
     # Added options for which ticker stream to use
     parser.add_option("--tickerBitstamp",action="store_true",dest="tickerBitstamp",default=True,help="Use Bitstamp exchange for ticker")
@@ -423,11 +427,11 @@ if __name__ == "__main__":
     tickerDownCode      = 7 # down arrow icon number
     tickerDirectionCode = tickerUpCode 
     
-    # Check for minerType, if it's not set, set it to CGMiner
+    # Check for minerType, if it's not set, set it to BFGMiner
     try:
         minerType
     except NameError:
-        print "No miner software defined; Using CGMiner"
+        print "No miner software defined; Using BFGMiner"
         minerType = 1
     
     # create instance of the RPCClient class
