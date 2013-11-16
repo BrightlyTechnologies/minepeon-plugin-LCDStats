@@ -443,6 +443,7 @@ if __name__ == "__main__":
                 if (tickerToggleState == True):
                     tickerPreviousPrice = tickerLastPrice
                     tickerLastPrice = str(getBitstampPrice(tickerTimeout))   # Call to ticker API to get "Last Price" in USD
+                    print "Last Price = " + tickerLastPrice
                     
                     if tickerPreviousPrice == tickerLastPrice: # check direction of price change based on previous price
                         pass                                    # no price change, so keep the previous direction code state
