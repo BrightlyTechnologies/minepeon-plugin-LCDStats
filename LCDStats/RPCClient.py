@@ -9,14 +9,22 @@ import json
 class RPCClient:
     #
     # Class init
-    def __init__(self, host, port):
+    def __init__(self, host, port, minerType):
         self.host = host
         self.port = port
+        self.miner = minerType
     
 
     # execute miner API remote procedure call
     # parms: string containing the desired miner API command
     def command(self, command):
+        
+        if (self.miner == 1):
+            print "Using CGMiner now...";
+        elif (self.miner == 2):
+            print "Using BFGMiner now...";
+        
+        
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self.host, self.port))

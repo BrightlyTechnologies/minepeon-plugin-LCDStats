@@ -382,15 +382,15 @@ if __name__ == "__main__":
     parser.add_option("-d","--refresh-delay",type="int",dest="refreshDelay",default=screenRefreshDelay, help="REFRESHDELAY = Time delay between screen/API refresh") 
     parser.add_option("-i","--host",type="str",dest="host",default=host,help="IP Address of Miner API host")
     parser.add_option("-p","--port",type="int",dest="port",default=port,help="Port of Miner API") 
-    parser.add_option("-c","--clock",type="str",dest="timeDisplayFormat",default='12', help="Clock Display 12 hr / 24 hr")
+    parser.add_option("-c","--clock",type="str",dest="timeDisplayFormat",default='24', help="Clock Display 12 hr / 24 hr")
     parser.add_option("-m","--miner",type="int",dest="minerType",default='1',help="Define which miner software you want to use: 1 = CGminer, 2 = BFGMiner")
     
     # Added options for which ticker stream to use
-    parser.add_option("--tickerBitStamp",action="store_true",dest="tickerBitStamp",default=False,help="If specified, BitStamp will be used instead of MtGox")
-    parser.add_option("--tickerDisplayOff",action="store_true",dest="tickerDisplayOff",default=False,help="If specified, ticker will not be displayed")
+    parser.add_option("--tickerBitstamp",action="store_true",dest="tickerBitstamp",default=True,help="Use Bitstamp exchange for ticker")
+    parser.add_option("--tickerMtGox",action="store_true",dest="tickerMtGox",default=False,help="Use Mt.Gox exchange for ticker")
     parser.add_option("--tickerToggleRate",type="float",dest="tickerToggleRate",default=15,help="Rate (in sec.) to toggle display between WU: and specified ticker API")
     parser.add_option("--tickerTimeout",type="float",dest="tickerTimeout",default=4,help="Ticker API socket timeout in seconds")
-    parser.add_option("--tickerForce",action="store_true",dest="tickerForce",default=False,help="If specified, ticker will always display")
+    parser.add_option("--tickerForce",action="store_true",dest="tickerForce",default=True,help="If specified, ticker will always display")
     
     # parse the command line arguments and populate the variables
     (options, args)     = parser.parse_args()    
@@ -413,13 +413,21 @@ if __name__ == "__main__":
     tickerLastPrice      = str("000.00")
     tickerPreviousPrice  = str("000.00")
     tickerToggleState    = True
+    
     # numbers are icon numbers on LCD device: 
     tickerUpCode         = 8 # up arrow icon number
     tickerDownCode       = 7 # down arrow icon number
     tickerDirectionCode  = tickerUpCode 
     
-    # create instance of the CgminerRPCClient class
-    rpcClient = RPCClient(host, port)
+    # Check for minerType, if it's not set, set it to CGMiner
+    try:
+        minerType
+    except NameError:
+        print "No miner software defined; Using CGMiner"
+        minerType = 1
+    
+    # create instance of the RPCClient class
+    rpcClient = RPCClient(host, port, minerType)
     
     while(True):
         
@@ -433,16 +441,18 @@ if __name__ == "__main__":
             upTime      = getMinerPoolUptime(stats)
             
             if not tickerDisplayOff: # check to see if user has turned of ticker display
+                tickerToggleState = True
                 
-                # if they didn't, check to see if it's time to swap to MtGox display, if so, do it.
-                if tickerForce == True:      # did user select to force mtGox to always display?
-                    tickerToggleState = True # if so, force flag
-                elif tickerForce == False:
-                    tickerToggleState = timedToggle.getToggleStatus() # returns true if time to toggle
-                    
                 if (tickerToggleState == True):
                     tickerPreviousPrice = tickerLastPrice
-                    tickerLastPrice = str(getBitstampPrice(tickerTimeout))   # Call to ticker API to get "Last Price" in USD
+                    
+                    if (tickerMtGox == True):
+                        tickerLastPrice = str(getMtGoxPrice(tickerTimeout))
+                    elif (tickerBitstamp == True):
+                        tickerLastPrice = str(getBitstampPrice(tickerTimeout))
+                    else:
+                        tickerLastPrice = str(getBitstampPrice(tickerTimeout))   # Default to Bitstamp if nothing was defined.
+                    
                     
                     if tickerPreviousPrice == tickerLastPrice: # check direction of price change based on previous price
                         pass                                    # no price change, so keep the previous direction code state
@@ -459,11 +469,11 @@ if __name__ == "__main__":
 
             firstTime = False
             time.sleep(int(screenRefreshDelay)) # Number of seconds to wait, aprox.
-                                                # TODO consider adjusting the delay if we had to wait for an ticker call?
+                                                
         ## Main application exception handler. All exceptions that aren't specifically swallowed end up here.
         except Exception as e:
             print "Main Exception Handler: "
             print str(e)
             print
-            displayErrorScreen(str(e))   # something bad happened, better display the error screen
+            displayErrorScreen(str(e))
             time.sleep(errorRefreshDelay)
