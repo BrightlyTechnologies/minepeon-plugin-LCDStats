@@ -323,7 +323,7 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     line5String = reject + "  " + hardware
     
     #if tickerToggleState: # if we have ticker data, get ready to display it
-    line6String = "Bitstamp: " + tickerLastPrice 
+    line6String = "Bitstamp: $" + tickerLastPrice 
     #else:
     #    line6String = "Ticker API Error"
         
@@ -410,8 +410,8 @@ if __name__ == "__main__":
     
     # init other misc. variables        
     firstTime           = True
-    tickerLastPrice      = str("$000.00")
-    tickerPreviousPrice  = str("$000.00")
+    tickerLastPrice      = str("000.00")
+    tickerPreviousPrice  = str("000.00")
     tickerToggleState    = True
     # numbers are icon numbers on LCD device: 
     tickerUpCode         = 8 # up arrow icon number
@@ -452,7 +452,7 @@ if __name__ == "__main__":
                         tickerDirectionCode = tickerUpCode # price went up
                         
                 else:                           
-                    tickerLastPrice = "$000.00"  # zero out last price since we didn't call API 
+                    tickerLastPrice = "000.00"  # zero out last price since we didn't call API 
                                             
             # display selected screen if command line option present
             if simpleDisplay:
