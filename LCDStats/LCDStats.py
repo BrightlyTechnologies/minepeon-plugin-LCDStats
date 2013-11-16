@@ -398,26 +398,29 @@ if __name__ == "__main__":
     screenRefreshDelay  = int(options.refreshDelay)
     errorRefreshDelay   = screenRefreshDelay
     
-    host    = options.host
-    port    = options.port
+    host        = options.host
+    port        = options.port
+    minerType   = options.minerType
     
+    
+    tickerBitstamp      = options.tickerBitstamp
+    tickerMtGox         = options.tickerMtGox
     timeDisplayFormat   = options.timeDisplayFormat
     tickerTimeout       = options.tickerTimeout
-    tickerDisplayOff    = options.tickerDisplayOff
     tickerToggleRate    = options.tickerToggleRate
     timedToggle         = TimedToggle(tickerToggleRate) # create timed toggle instance that swaps state every X seconds
     tickerForce         = options.tickerForce
     
     # init other misc. variables        
     firstTime           = True
-    tickerLastPrice      = str("000.00")
-    tickerPreviousPrice  = str("000.00")
-    tickerToggleState    = True
+    tickerLastPrice     = str("000.00")
+    tickerPreviousPrice = str("000.00")
+    tickerToggleState   = True
     
     # numbers are icon numbers on LCD device: 
-    tickerUpCode         = 8 # up arrow icon number
-    tickerDownCode       = 7 # down arrow icon number
-    tickerDirectionCode  = tickerUpCode 
+    tickerUpCode        = 8 # up arrow icon number
+    tickerDownCode      = 7 # down arrow icon number
+    tickerDirectionCode = tickerUpCode 
     
     # Check for minerType, if it's not set, set it to CGMiner
     try:
