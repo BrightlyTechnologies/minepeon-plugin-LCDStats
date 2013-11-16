@@ -373,7 +373,7 @@ if __name__ == "__main__":
     host = '127.0.0.1'  # cgminer host IP - value overridden by command line parm
     port = 4028         # default port - value overridden by command line parm
     
-    screenRefreshDelay  = 3     # number of seconds to wait before each screen refresh (aprox.) - value overridden by command line parm
+    screenRefreshDelay  = 20    # number of seconds to wait before each screen refresh (aprox.) - value overridden by command line parm
     errorRefreshDelay   = 30    # number of seconds to wait before each ERROR screen refresh (aprox.)
     simpleDisplay       = False # value overridden by command line parm TODO simple display function not needed?
  
