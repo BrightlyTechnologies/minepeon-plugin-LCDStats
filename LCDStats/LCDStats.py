@@ -313,7 +313,7 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     # build the display strings
     line1String = shortPoolURL + "\t" + theTime
     line2String = "Uptime:  " + upTime
-    line3String = avgMhs + "h/s" + "  B:" + foundBlocks
+    line3String = avgMhs + "h/s"
     if int(foundBlocks) > 0:
         line3Colour = TextColours.RED
     else:
@@ -323,11 +323,11 @@ def showDefaultScreen(firstTime, summary, tickerLastPrice, tickerDirectionCode, 
     line5String = reject + "  " + hardware
         
     if (tickerMtGox == True):
-        tickerName = "Mt.Gox: $"
+        tickerName = "Gox: $"
     elif (tickerBitstamp == True):
-        tickerName = "Bitstamp:$"
+        tickerName = "BStamp:$"
     else:
-        tickerName = "Bitstamp:$"
+        tickerName = "BStamp:$"
     
     line6String = tickerName + tickerLastPrice 
         
@@ -373,7 +373,7 @@ if __name__ == "__main__":
     host = '127.0.0.1'  # cgminer host IP - value overridden by command line parm
     port = 4028         # default port - value overridden by command line parm
     
-    screenRefreshDelay  = 20    # number of seconds to wait before each screen refresh (aprox.) - value overridden by command line parm
+    screenRefreshDelay  = 15    # number of seconds to wait before each screen refresh (aprox.) - value overridden by command line parm
     errorRefreshDelay   = 30    # number of seconds to wait before each ERROR screen refresh (aprox.)
     simpleDisplay       = False # value overridden by command line parm TODO simple display function not needed?
  
